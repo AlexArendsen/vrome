@@ -19,6 +19,7 @@ class window.Hint
 
   freshHints = =>
     highlightBox = removeHighlightBox true
+    idx = 0
 
     for elem, index in (matched ? [])
       hintKey = numberToHintKey(index + 1)
@@ -26,11 +27,12 @@ class window.Hint
       className = 'active' if hintKey is (currentKeys or numberToHintKey 1) # 1 is selected by default
       className = 'hidden' unless hintKey.startsWith currentKeys # hide those won't match
       hintKey = $('<key>', text: currentKeys).get(0).outerHTML + hintKey.trimFirst(currentKeys) if currentKeys
-      # <span vrome_highlight='className'><key>A</key>E</span>
       span = $('<span>', vrome_highlight: className, html: hintKey)
       $(highlightBox).append span
+      $(highlightBox).hide()
       offset = $(elem).offset()
       span.offset left: offset.left - 6, top: offset.top
+      $(highlightBox).fadeIn 150
     return
 
   setMatched = (_matched) =>
